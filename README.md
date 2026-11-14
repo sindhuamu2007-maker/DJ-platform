@@ -6,10 +6,10 @@ A modern full-stack web application combining real-time group music streaming, c
 
 ---
 
-## 🌟 The Two Primary Innovations
+##  The Two Primary Innovations
 
 ### 1. Major Innovation 1: Emotion-Adaptive AI DJ
-- **Real-Time NLP Sentiment Analysis**: Evaluates room chat messages, emoji reactions (❤️, 🔥, ⚡, 💃, ☕, 😴, 💔, 👎), likes, dislikes, and skip patterns.
+- **Real-Time NLP Sentiment Analysis**: Evaluates room chat messages, emoji reactions, likes, dislikes, and skip patterns.
 - **Specific Emotion Classification**: Classifies sentiment beyond simple binary polarity into specific emotion categories (`Happy`, `Excited`, `Energetic`, `Relaxed`, `Sad`, `Frustrated`, `Neutral`), ensuring negative song criticism is not conflated with grief or sadness.
 - **Exponential Time Decay Formulation**: Computes the collective room mood vector where recent listener reactions hold exponential priority over older ones.
 - **Live Group Mood Dashboard**: Renders real-time percentage distributions (e.g. Happy 40%, Excited 35%, Relaxed 15%, Neutral 10%) and dynamic energy trajectory curves ("Peak Party High", "Rising Energy", "Mellow Chill Vibes").
@@ -25,7 +25,7 @@ A modern full-stack web application combining real-time group music streaming, c
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
 - **Collaborative Virtual Music Lounges**: Create and join music rooms via unique codes (e.g. `DJ-7F2A`) or one-click invite links, with real-time presence synchronization.
 - **Live Collaborative Music Queue**: Search Apple Music, queue the exact selected catalog song, play any queued item immediately, and remove or reorder songs with duplicate prevention and user attribution ("Added by"). New rooms wait for a listener to select a song instead of autoplaying placeholder audio.
@@ -41,7 +41,7 @@ A modern full-stack web application combining real-time group music streaming, c
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 | Layer | Technologies |
 |---|---|
@@ -53,7 +53,7 @@ A modern full-stack web application combining real-time group music streaming, c
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 ai-collaborative-dj/
@@ -135,7 +135,7 @@ cd frontend && npm run dev
 
 ---
 
-## 🧪 Automated Testing
+##  Automated Testing
 
 Execute the automated end-to-end integration test suite:
 
@@ -155,6 +155,3 @@ cd backend && node tests/integration.test.js
 - ✅ Multi-shelf hybrid recommendations generation
 
 ---
-
-## 🔐 Demo Credentials
-Choose **Continue with demo account** on the login screen to try the app without creating an account.
