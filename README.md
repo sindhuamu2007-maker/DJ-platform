@@ -155,3 +155,10 @@ cd backend && node tests/integration.test.js
 - ✅ Multi-shelf hybrid recommendations generation
 
 ---
+**IMPORTANT NOTE: API KEY CONFIGURATION**
+
+To enable song playback and highlight the currently playing songs, you must configure your API key in the backend environment settings.
+Open the backend folder.
+Locate .env.example.
+Add your API key to the appropriate environment variable.
+Save the file and configure your backend to load these environment variables.
