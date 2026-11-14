@@ -5,17 +5,26 @@
  */
 
 const assert = require('assert');
-const { connectDB } = require('../config/db');
+global.USE_MEMORY_STORE = true;
+
 const UserModel = require('../models/User');
 const RoomModel = require('../models/Room');
 const SoundclashModel = require('../models/Soundclash');
 const musicService = require('../services/musicProviderService');
 const AIBridge = require('../services/aiBridge');
 
+const catalog = [
+  { id: 'itunes-1001', title: 'Kannada Dance', artist: 'Artist One', genre: 'Kannada', language: 'Kannada', duration: 200, bpm: 124, key: '8B', energy: 0.82, popularity: 85, provider: 'itunes' },
+  { id: 'itunes-1002', title: 'Hindi Groove', artist: 'Artist Two', genre: 'Hindi', language: 'Hindi', duration: 210, bpm: 120, key: '8A', energy: 0.75, popularity: 80, provider: 'itunes' },
+  { id: 'itunes-1003', title: 'EDM Pulse', artist: 'Artist Three', genre: 'EDM', language: 'English', duration: 190, bpm: 128, key: '9B', energy: 0.9, popularity: 90, provider: 'itunes' },
+  { id: 'itunes-1004', title: 'Lo-fi Evening', artist: 'Artist Four', genre: 'Lo-fi', language: 'Instrumental', duration: 220, bpm: 82, key: '5A', energy: 0.3, popularity: 70, provider: 'itunes' }
+];
+
 async function runTests() {
   console.log("==========================================================");
   console.log("🧪 STARTING COMPREHENSIVE AI DJ PLATFORM INTEGRATION TESTS");
   console.log("==========================================================\n");
+  console.log("Using an isolated in-memory store; persistent MongoDB records will not be changed.\n");
 
   let passed = 0;
   let total = 0;
@@ -31,12 +40,11 @@ async function runTests() {
     }
   };
 
-  // 1. Initialize DB and Music Provider
-  await test("System Startup & Apple Music Catalog", async () => {
-    await connectDB();
-    const catalog = await musicService.getAllCatalog();
-    assert(catalog.length > 0, "Catalog should include Apple Music songs");
-    assert(catalog.every(track =>
+  // 1. Verify the external Apple Music catalog provider independently.
+  await test("Apple Music Catalog Search", async () => {
+    const tracks = await musicService.getAllCatalog();
+    assert(tracks.length > 0, "Catalog should include Apple Music songs");
+    assert(tracks.every(track =>
       track.provider === 'itunes' &&
       /^itunes-\d+$/.test(track.id) &&
       track.duration > 0
@@ -85,7 +93,6 @@ async function runTests() {
   // 3. Collaborative Music Room Creation & Presence
   let testRoom;
   await test("Collaborative Room Creation & Member Presence", async () => {
-    const catalog = await musicService.getAllCatalog();
     testRoom = await RoomModel.create({
       roomId: 'DJ-TEST',
       name: 'Bangalore Electronic Session',
@@ -138,7 +145,6 @@ async function runTests() {
 
   // 6. Major Innovation 2: AI Music Preference Conflict Resolution
   await test("Major Innovation 2: AI Music Conflict Resolution & Fair-Share Balancing", async () => {
-    const catalog = await musicService.getAllCatalog();
     const participants = [
       { id: 'u1', username: 'Alice', preferredGenres: ['Kannada'] },
       { id: 'u2', username: 'Bob', preferredGenres: ['Hindi'] },
@@ -165,7 +171,6 @@ async function runTests() {
 
   // 7. Soundclash Live Battle & AI Prediction
   await test("Soundclash Battle, AI Prediction & Double-Vote Protection", async () => {
-    const catalog = await musicService.getAllCatalog();
     const songA = catalog[0];
     const songB = catalog[2];
 
@@ -200,7 +205,6 @@ async function runTests() {
 
   // 8. AI DJ Harmonic Mixing & Transition Calculation
   await test("AI DJ Harmonic Mixing & Web Audio Crossfade Analysis", async () => {
-    const catalog = await musicService.getAllCatalog();
     const track1 = catalog[0];
     const track2 = catalog[1];
 
@@ -213,7 +217,6 @@ async function runTests() {
 
   // 9. Hybrid Recommendations Shelves
   await test("Multi-Shelf Hybrid Recommendations", async () => {
-    const catalog = await musicService.getAllCatalog();
     const recs = await AIBridge.getHybridRecommendations({
       user: user1Doc,
       catalog,
@@ -229,14 +232,13 @@ async function runTests() {
   });
 
   console.log("\n==========================================================");
-  console.log(`🏁 INTEGRATION TEST RESULTS: ${passed}/${total} PASSED (100% SUCCESS)`);
+  const failed = total - passed;
+  const passRate = total === 0 ? 0 : Math.round((passed / total) * 100);
+  const resultLabel = failed === 0 ? "ALL TESTS PASSED" : `${failed} TEST(S) FAILED`;
+  console.log(`🏁 INTEGRATION TEST RESULTS: ${passed}/${total} PASSED (${passRate}%) - ${resultLabel}`);
   console.log("==========================================================");
 
-  if (passed === total) {
-    process.exit(0);
-  } else {
-    process.exit(1);
-  }
+  if (failed > 0) process.exitCode = 1;
 }
 
 runTests().catch(err => {
