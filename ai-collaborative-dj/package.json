@@ -1,0 +1,14 @@
+{
+  "name": "ai-collaborative-dj-platform",
+  "version": "1.0.0",
+  "description": "AI-Powered Collaborative DJ Platform – Emotion-Aware, Intelligent & Real-Time Group Music Experience",
+  "scripts": {
+    "test": "node backend/tests/integration.test.js",
+    "build:frontend": "npm run --prefix frontend build",
+    "start:backend": "node backend/server.js",
+    "start:ai": "python ai-engine/app.py",
+    "start:frontend": "npm run --prefix frontend dev"
+  },
+  "author": "Antigravity Team",
+  "license": "ISC"
+}
